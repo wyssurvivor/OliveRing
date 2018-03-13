@@ -21,7 +21,28 @@ class OliveRing:
         k=self.hash_func(key)
 
     def get_node(self, key):
-        hash_key=self.hash_function()
+        hash_key=self.hash_function(key)
+        print hash_key
+        low=0
+        high=len(self.key_list)-1
+        target_index=-1
+        while low<=high:
+            mid=(low+high)/2
+            if self.key_list[mid]<hash_key:
+                low=mid+1
+            elif self.key_list[mid]>hash_key:
+                high=mid-1
+            else:
+                target_index=mid
+                break
+        print target_index
+        if target_index == -1:
+            if low>len(self.key_list)-1:
+                return self.key_list[0]
+            else:
+                return None
+
+        return self.key_list[target_index]
 
     def add_node(self, key):
         pass
@@ -62,3 +83,4 @@ if __name__=='__main__':
     # print ord(unpack("c"*16, md5("wys").digest())[1])<<2|1
     ring = OliveRing(100, 1000000)
     ring.allocate("0.0.0.0:11211", Node("0.0.0.0", 11211))
+    ring.get_node('wys')
